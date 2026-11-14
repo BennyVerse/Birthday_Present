@@ -50,7 +50,7 @@ window.GEBURTSTAG_CONFIG = {
 
   // Ab wann zählt der „Bau-Fortschritt“-Balken unter dem Timer?
   // (0 % an diesem Datum, 100 % am Zieldatum). null = Balken ausblenden.
-  fortschrittStart: "2026-11-11T00:00:00+01:00",
+  fortschrittStart: "2026-11-08T00:00:00+01:00",
 
 
   /* -------------------------------------------------------------------
