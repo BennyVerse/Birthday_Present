@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<!--
+  =====================================================================
+  test.html  –  TESTOBERFLÄCHE (nur für dich zum Ausprobieren!)
+  =====================================================================
+  ⚠️  Diese Datei NICHT an deinen Freund schicken – und am besten auch
+      NICHT auf GitHub hochladen (sonst kann man den Timer überspringen).
+
+  Identisch mit index.html, aber zusätzlich mit:
+    • rotem „TESTMODUS“-Band oben
+    • Test-Panel unten rechts (Zeit vorspulen, Datei-Prüfung, Konfetti)
+  Alle Stellen, die sich von index.html unterscheiden, sind mit
+  „TEST-UNTERSCHIED“ markiert.
+  =====================================================================
+  Aufbau der Seite (von oben nach unten):
+    1. <head>            Titel, Schriften, Styles, Vorschau-Infos
+    2. #countdown        Timer-Bildschirm (vor dem Geburtstag)
+    3. #finale           Großer 10-Sekunden-Countdown (letzte Sekunden)
+    4. #tor              „Überraschung öffnen“-Bildschirm (nach Ablauf)
+    5. #feier            Die eigentliche Geburtstagsseite:
+         .hero           Glückwunsch-Überschrift + Alter
+         #collage        Foto-Collage
+         #wuensche       Glückwunsch-Karten
+         #playlist       Lieblingssongs (Playlist)
+         #brief          Persönlicher Brief
+         #geschenk       Geschenk-Baustein → Link zur PDF
+    6. #lightbox         Großansicht, wenn man ein Foto/Video anklickt
+    7. #player           Mini-Player („Läuft gerade …“) unten links
+    8. Skripte           config.js → konfetti.js → playlist.js → main.js
+
+  WICHTIG: Die Texte stehen NICHT hier, sondern in assets/js/config.js.
+  Elemente mit  data-text="..."  werden automatisch mit dem passenden
+  Text aus der config.js befüllt. So musst du nur eine Datei pflegen.
+
+  Diese Datei ist (fast) identisch mit test.html. Unterschied:
+  test.html lädt zusätzlich das Test-Panel (Zeit vorspulen usw.).
+  Stellen, an denen test.html etwas mehr enthält, sind unten mit
+  „TEST-UNTERSCHIED“ markiert.
+  =====================================================================
+-->
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+  <!-- Suchmaschinen sollen diese private Seite nicht aufnehmen -->
+  <meta name="robots" content="noindex, nofollow">
+
+  <!-- Titel im Browser-Tab (wird per JavaScript aus der config.js überschrieben) -->
+  <title>[TEST] Psst … 🎁</title>
+  <meta name="description" content="Hier wird gerade etwas gebaut …">
+
+  <!-- Vorschau, wenn der Link z. B. per WhatsApp verschickt wird (absichtlich ohne Spoiler) -->
+  <meta property="og:title" content="Psst … hier ist etwas für dich 🎁">
+  <meta property="og:description" content="Öffne den Link – aber nicht zu früh!">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#0f1530">
+
+  <!-- Favicon: ein kleiner Geschenk-Emoji (kein extra Bild nötig) -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎁</text></svg>">
+
+  <!-- Schriftarten von Google Fonts (falls offline: es wird automatisch eine Ersatzschrift genutzt) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+
+  <!-- Das komplette Design -->
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <!-- TEST-UNTERSCHIED: Design der Testoberfläche -->
+  <link rel="stylesheet" href="assets/css/test-panel.css">
+</head>
+
+<body>
+
+  <!-- TEST-UNTERSCHIED: rotes Band, damit man nie Test und Final verwechselt -->
+  <div class="testband">🧪 Testmodus – diese Seite ist nur zum Ausprobieren · Panel unten rechts · Taste T</div>
+
+  <!-- Hinweis, falls JavaScript deaktiviert ist -->
+  <noscript>
+    <div class="noscript">Bitte aktiviere JavaScript, damit diese Überraschung funktioniert. 🎁</div>
+  </noscript>
+
+  <!-- Dekoration: schwebende Bausteine im Hintergrund (werden per JS erzeugt) -->
+  <div class="schwebe-steine" id="schwebe-steine" aria-hidden="true"></div>
+
+  <!-- Leinwand für das Konfetti (liegt über allem, fängt aber keine Klicks ab) -->
+  <canvas class="konfetti" id="konfetti" aria-hidden="true"></canvas>
+
+
+  <!-- =================================================================
+       1) COUNTDOWN-BILDSCHIRM
+       ================================================================= -->
+  <section class="screen countdown" id="countdown" hidden>
+    <div class="countdown__inhalt">
+
+      <p class="vorzeile" data-text="countdown.vorzeile"></p>
+      <h1 class="countdown__titel" data-text="countdown.titel"></h1>
+      <p class="countdown__untertitel" data-text="countdown.untertitel"></p>
+
+      <!-- Die vier Timer-Steine. Die Zahlen setzt main.js jede Sekunde neu. -->
+      <div class="timer" role="timer" aria-label="Verbleibende Zeit">
+        <div class="stein stein--rot">
+          <span class="noppen"><i></i><i></i></span>
+          <span class="stein__zahl" id="t-tage">--</span>
+          <span class="stein__label">Tage</span>
+        </div>
+        <div class="stein stein--gelb">
+          <span class="noppen"><i></i><i></i></span>
+          <span class="stein__zahl" id="t-stunden">--</span>
+          <span class="stein__label">Stunden</span>
+        </div>
+        <div class="stein stein--blau">
+          <span class="noppen"><i></i><i></i></span>
+          <span class="stein__zahl" id="t-minuten">--</span>
+          <span class="stein__label">Minuten</span>
+        </div>
+        <div class="stein stein--gruen">
+          <span class="noppen"><i></i><i></i></span>
+          <span class="stein__zahl" id="t-sekunden">--</span>
+          <span class="stein__label">Sekunden</span>
+        </div>
+      </div>
+
+      <!-- „bis Mittwoch, 18. November 2026 um 00:00 Uhr“ -->
+      <p class="zieldatum" id="zieldatum-text"></p>
+
+      <!-- Bau-Fortschritt: Reihe aus 10 Steinen, die sich nach und nach füllen -->
+      <div class="fortschritt" id="fortschritt">
+        <div class="fortschritt__steine" id="fortschritt-steine" aria-hidden="true"></div>
+        <p class="fortschritt__text" id="fortschritt-text"></p>
+      </div>
+
+      <!-- Wechselnde Hinweise (Texte aus config.js → countdown.hinweise) -->
+      <p class="hinweis" id="hinweis" aria-live="polite"></p>
+    </div>
+  </section>
+
+
+  <!-- =================================================================
+       2) FINALE: riesige Zahl in den letzten 10 Sekunden
+       ================================================================= -->
+  <div class="finale" id="finale" hidden aria-live="assertive">
+    <span class="finale__zahl" id="finale-zahl"></span>
+  </div>
+
+
+  <!-- =================================================================
+       3) TOR: „Überraschung öffnen“ (erscheint, wenn die Zeit um ist)
+       ================================================================= -->
+  <section class="screen tor" id="tor" hidden>
+    <div class="tor__inhalt">
+      <div class="tor__stein" aria-hidden="true">
+        <span class="noppen"><i></i><i></i></span>
+        <span class="tor__emoji">🎁</span>
+      </div>
+      <h1 class="tor__titel" data-text="tor.titel"></h1>
+      <p class="tor__text" data-text="tor.text"></p>
+      <button class="knopf knopf--gross" id="tor-knopf" type="button" data-text="tor.knopf"></button>
+    </div>
+  </section>
+
+
+  <!-- =================================================================
+       4) DIE GEBURTSTAGSSEITE
+       ================================================================= -->
+  <main class="feier" id="feier" hidden>
+
+    <!-- ---------- 4a) Glückwunsch-Kopf ---------- -->
+    <header class="hero abschnitt abschnitt--dunkel">
+      <p class="vorzeile einblenden" data-text="hero.vorzeile"></p>
+      <h1 class="hero__titel einblenden" data-text="hero.titel"></h1>
+
+      <!-- Das Alter als Bausteine (wird ausgeblendet, wenn alter = null) -->
+      <div class="alter" id="alter" aria-hidden="true"></div>
+
+      <p class="hero__text einblenden" data-text="hero.text"></p>
+
+      <a class="scroll-hinweis" href="#collage" aria-label="Nach unten scrollen">
+        <span>Scroll runter</span>
+        <span class="scroll-hinweis__pfeil">↓</span>
+      </a>
+    </header>
+
+    <!-- ---------- 4b) Foto-Collage ---------- -->
+    <section class="abschnitt abschnitt--hell collage" id="collage">
+      <h2 class="abschnitt__titel einblenden" data-text="collage.titel"></h2>
+      <p class="abschnitt__untertitel einblenden" data-text="collage.untertitel"></p>
+      <!-- Die Fotos werden von main.js aus config.js → collage.fotos erzeugt -->
+      <div class="collage__raster" id="collage-raster"></div>
+    </section>
+
+    <!-- ---------- 4c) Glückwunsch-Karten ---------- -->
+    <section class="abschnitt abschnitt--dunkel wuensche" id="wuensche">
+      <h2 class="abschnitt__titel einblenden" data-text="wuensche.titel"></h2>
+      <div class="wuensche__raster" id="wuensche-raster"></div>
+    </section>
+
+    <!-- ---------- 4c+) Playlist mit den Lieblingssongs ----------
+         Wird von playlist.js aus config.js → musik.playlist gefüllt.
+         Ohne Songs (oder mit abschnittAnzeigen: false) bleibt er ausgeblendet. -->
+    <section class="abschnitt abschnitt--blau playlist" id="playlist" hidden>
+      <div class="playlist__kopf einblenden">
+        <div class="playlist__platte" aria-hidden="true"><span></span></div>
+        <h2 class="abschnitt__titel" id="playlist-titel"></h2>
+        <p class="abschnitt__untertitel" id="playlist-untertitel"></p>
+      </div>
+      <ol class="playlist__liste einblenden" id="playlist-liste"></ol>
+    </section>
+
+    <!-- ---------- 4d) Der persönliche Brief ---------- -->
+    <section class="abschnitt abschnitt--hell brief" id="brief">
+      <article class="brief__papier einblenden">
+        <h2 class="brief__titel" data-text="brief.titel"></h2>
+        <p class="brief__anrede" data-text="brief.anrede"></p>
+        <div class="brief__text" id="brief-text"></div>
+        <p class="brief__gruss" data-text="brief.gruss"></p>
+        <p class="brief__unterschrift" data-text="brief.unterschrift"></p>
+      </article>
+    </section>
+
+    <!-- ---------- 4e) Das Geschenk ---------- -->
+    <section class="abschnitt abschnitt--dunkel geschenk" id="geschenk">
+      <h2 class="abschnitt__titel einblenden" data-text="geschenk.titel"></h2>
+      <p class="abschnitt__untertitel einblenden" data-text="geschenk.text"></p>
+
+      <!-- Der große Geschenk-Baustein: ein Klick öffnet ihn -->
+      <div class="geschenk__buehne">
+        <span class="geschenk__strahlen" aria-hidden="true"></span>
+        <button class="geschenkstein" id="geschenkstein" type="button"
+                aria-expanded="false" aria-controls="geschenk-inhalt"
+                aria-label="Geschenk öffnen">
+          <span class="geschenkstein__deckel">
+            <span class="noppen noppen--4"><i></i><i></i><i></i><i></i></span>
+            <span class="geschenkstein__schleife"></span>
+          </span>
+          <span class="geschenkstein__korpus">
+            <span class="geschenkstein__band"></span>
+            <span class="geschenkstein__fragezeichen">?</span>
+          </span>
+        </button>
+      </div>
+
+      <!-- Wird nach dem Öffnen eingeblendet -->
+      <div class="geschenk__inhalt" id="geschenk-inhalt" hidden>
+        <p class="geschenk__set" data-text="geschenk.setName"></p>
+        <p class="geschenk__nummer" id="geschenk-nummer"></p>
+        <p class="geschenk__enthuellung" data-text="geschenk.enthuellung"></p>
+        <div class="geschenk__knoepfe">
+          <a class="knopf knopf--gross" id="pdf-oeffnen" href="#" target="_blank" rel="noopener" data-text="geschenk.knopfOeffnen"></a>
+          <a class="knopf knopf--zweit" id="pdf-download" href="#" download data-text="geschenk.knopfDownload"></a>
+        </div>
+      </div>
+    </section>
+
+    <footer class="fusszeile">
+      <p data-text="fusszeile"></p>
+    </footer>
+  </main>
+
+
+  <!-- =================================================================
+       5) LIGHTBOX (Großansicht eines Fotos)
+       ================================================================= -->
+  <div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true" aria-label="Foto-Großansicht">
+    <button class="lightbox__knopf lightbox__schliessen" id="lb-schliessen" type="button" aria-label="Schließen">✕</button>
+    <button class="lightbox__knopf lightbox__zurueck" id="lb-zurueck" type="button" aria-label="Vorheriges Foto">‹</button>
+    <figure class="lightbox__figur">
+      <img class="lightbox__bild" id="lb-bild" alt="">
+      <!-- Für Videos in der Collage: wird statt des Bildes angezeigt (mit Ton & Steuerung) -->
+      <video class="lightbox__bild" id="lb-video" controls playsinline preload="metadata" hidden></video>
+      <figcaption class="lightbox__text">
+        <span id="lb-text"></span>
+        <span class="lightbox__zaehler" id="lb-zaehler"></span>
+      </figcaption>
+    </figure>
+    <button class="lightbox__knopf lightbox__weiter" id="lb-weiter" type="button" aria-label="Nächstes Foto">›</button>
+  </div>
+
+  <!-- =================================================================
+       6) MINI-PLAYER („Läuft gerade …“) – gesteuert von playlist.js
+       Nur sichtbar auf der Geburtstagsseite und nur, wenn Songs in der
+       config.js eingetragen sind.
+       ================================================================= -->
+  <div class="player" id="player" hidden role="region" aria-label="Musik-Player">
+    <!-- Fortschrittsbalken: anklicken = spulen -->
+    <div class="player__fortschritt" id="player-fortschritt" role="slider" tabindex="0"
+         aria-label="Songposition" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+      <span class="player__balken" id="player-balken"></span>
+    </div>
+
+    <!-- Zeile 1: Equalizer, „Läuft gerade“, Titel, Künstler -->
+    <div class="player__zeile">
+      <!-- Animierter Equalizer (bewegt sich nur, wenn Musik läuft) -->
+      <span class="eq eq--gross" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+
+      <div class="player__info" aria-live="polite">
+        <span class="player__label"><span id="player-label">Läuft gerade</span> · <span id="player-nummer"></span></span>
+        <span class="player__titel" id="player-titel"></span>
+        <span class="player__kuenstler" id="player-kuenstler"></span>
+      </div>
+
+      <!-- Nur im eingeklappten Zustand sichtbar: Play/Pause -->
+      <button type="button" class="player__knopf player__knopf--play player__knopf--mini" id="player-play-mini" aria-label="Abspielen/Pause">
+        <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4v16l13-8z"/></svg>
+        <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg>
+      </button>
+      <button type="button" class="player__knopf player__knopf--klein" id="player-minimieren" aria-label="Player einklappen">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.4 8.6 12 13.2l4.6-4.6L18 10l-6 6-6-6z"/></svg>
+      </button>
+    </div>
+
+    <!-- Zeile 2: Zeit, Steuerung, Songliste -->
+    <div class="player__steuerung">
+      <span class="player__zeit" id="player-zeit">0:00 / 0:00</span>
+      <div class="player__knoepfe">
+        <button type="button" class="player__knopf" id="player-zurueck" aria-label="Vorheriger Song">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h2v14H6zM20 5v14L9 12z"/></svg>
+        </button>
+        <button type="button" class="player__knopf player__knopf--play" id="player-play" aria-label="Abspielen">
+          <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4v16l13-8z"/></svg>
+          <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg>
+        </button>
+        <button type="button" class="player__knopf" id="player-weiter" aria-label="Nächster Song">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 5h2v14h-2zM4 5v14l11-7z"/></svg>
+        </button>
+      </div>
+      <button type="button" class="player__knopf player__knopf--klein player__listenknopf" id="player-listenknopf"
+              aria-label="Songliste anzeigen" aria-expanded="false" aria-controls="player-liste">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h13v2H3zM3 11h13v2H3zM3 16h9v2H3zM18 11v6.2a2.5 2.5 0 1 0 2 2.4V13h2v-2z"/></svg>
+      </button>
+    </div>
+
+    <!-- Aufklappbare Songliste -->
+    <ol class="player__liste" id="player-liste" hidden></ol>
+  </div>
+
+
+  <!-- =================================================================
+       SKRIPTE – Reihenfolge ist wichtig!
+       1. config.js   → alle Einstellungen
+       2. konfetti.js → Konfetti-Effekt
+       3. playlist.js → Musik-Player mit Playlist
+       4. main.js     → die eigentliche Logik
+       ================================================================= -->
+  <!-- TEST-UNTERSCHIED: schaltet in main.js die Test-Schnittstelle frei -->
+  <script>window.TEST_MODE = true;</script>
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/konfetti.js"></script>
+  <script src="assets/js/playlist.js"></script>
+  <script src="assets/js/main.js"></script>
+  <!-- TEST-UNTERSCHIED: das Test-Panel -->
+  <script src="assets/js/test-panel.js"></script>
+</body>
+</html>
