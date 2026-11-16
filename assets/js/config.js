@@ -264,7 +264,7 @@ window.GEBURTSTAG_CONFIG = {
       { datei: "musik/Elden Ring.mp3", titel: "Elden Ring", kuenstler: "FromSoftware", notiz: "Das Spiel das unsere Freundschaft gestärkt hat!" },
       { datei: "musik/Messmer the Impaler.mp3", titel: "Messmer the Impaler", kuenstler: "FromSoftware", notiz: "Dein Lieblingsboss aus Elden Ring!" },
       { datei: "musik/Muichiro.mp3", titel: "Muichiro's 7th Form", kuenstler: "Ufotable", notiz: "Alles ist in dichte Nebel gehüllt!" },
-      { datei: "musik/Shinobu vs Doma.mp3", titel: "The Battle Begins", kuenstler: "Ufotable", notiz: "Ein kaltes Herz das sogar Insektengift standhielt!" },
+      { datei: "musik/Shinobu vs Doma.mp3", titel: "The Battle Begins (Shinobu vs Douma)", kuenstler: "Ufotable", notiz: "Ein kaltes Herz das sogar Insektengift standhielt!" },
       { datei: "musik/Delirious.mp3", titel: "Delirious", kuenstler: "MAPPA", notiz: "Hier wird erklärt wie man so ein geiler Typ sein kann wie du!" },
       { datei: "musik/Lost in Paradise.mp3", titel: "Lost in Paradise", kuenstler: "MAPPA", notiz: "Bei dem Lied ist Leben in Ordnung, genauso wie bei jeder Zocksession!" },
       { datei: "musik/Lost Woods.mp3", titel: "Lost Woods", kuenstler: "Nintendo", notiz: "Do Do Dooo, Do Do Dooo, Do Do Doo Do Dooo, Do Do Do Do Dooo!" },
