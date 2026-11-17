@@ -189,9 +189,10 @@ window.GEBURTSTAG_CONFIG = {
       { symbol: "🍀", titel: "Glück",        text: "Pläne und Ziele dürfen auch Reibungslos verlaufen. (oder halt im Casino)" },
       { symbol: "😂", titel: "Lachen",       text: "Jeden Tag mindestens einen Grund, laut loszulachen." },
       { symbol: "🚀", titel: "Erfolg",       text: "Dass alles, was du dir vornimmst, auch klappt." },
+      { symbol: "👑", titel: "Mut",          text: "Viel Mut lässt das Leben leichter wirken." },
       { symbol: "🌍", titel: "Abenteuer",    text: "Neue Orte, neue Geschichten – am besten mit mir dabei." },
       { symbol: "🧱", titel: "Bauzeit",      text: "Ruhige Abende, an denen du einfach mal abschalten kannst." },
-      { symbol: "❤️", titel: "Liebe",        text: "Von deiner Frau, deinen Freunden oder nahen Verwandten." },
+      { symbol: "❤️", titel: "Liebe",        text: "Von deiner Frau, deinen Freunden und nahen Verwandten." },
       { symbol: "🍻", titel: "Gute Leute",   text: "Menschen um dich herum, die dich so feiern, wie du bist." }
     ]
   },
