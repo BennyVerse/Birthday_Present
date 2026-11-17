@@ -11,6 +11,7 @@
     5. #feier            Die eigentliche Geburtstagsseite:
          .hero           Glückwunsch-Überschrift + Alter
          #collage        Foto-Collage
+         #statistik      Statistik „Dieses Jahr zusammen“ (3er-Raster)
          #wuensche       Glückwunsch-Karten
          #playlist       Lieblingssongs (Playlist)
          #brief          Persönlicher Brief
@@ -177,6 +178,15 @@
       <p class="abschnitt__untertitel einblenden" data-text="collage.untertitel"></p>
       <!-- Die Fotos werden von main.js aus config.js → collage.fotos erzeugt -->
       <div class="collage__raster" id="collage-raster"></div>
+    </section>
+
+    <!-- ---------- 4b+) Statistik „Dieses Jahr zusammen“ ----------
+         Kacheln im 3-Spalten-Raster, gefüllt von main.js aus config.js → statistik.
+         Ohne Einträge bleibt der Abschnitt ausgeblendet. -->
+    <section class="abschnitt abschnitt--dunkel statistik" id="statistik" hidden>
+      <h2 class="abschnitt__titel einblenden" id="statistik-titel"></h2>
+      <p class="abschnitt__untertitel einblenden" id="statistik-untertitel"></p>
+      <div class="statistik__raster" id="statistik-raster"></div>
     </section>
 
     <!-- ---------- 4c) Glückwunsch-Karten ---------- -->
