@@ -34,7 +34,7 @@ window.GEBURTSTAG_CONFIG = {
   alter: 22,
 
   // Dein Name bzw. wie du unterschreibst (erscheint unter dem Brief & im Footer)
-  von: "bester Freund, Benny",
+  von: "Dein bester Freund, Benny",
 
 
   /* -------------------------------------------------------------------
@@ -148,6 +148,36 @@ window.GEBURTSTAG_CONFIG = {
 
 
   /* -------------------------------------------------------------------
+     6b) STATISTIK „Dieses Jahr zusammen“ (3 Spalten, so viele Zeilen wie nötig)
+     -------------------------------------------------------------------
+     Jeder Eintrag wird eine Kachel:
+       symbol:  Emoji oben in der Kachel
+       zahl:    große Zahl oder kurzes Wort, z. B. "42", "7×", "∞" ("" = weglassen)
+       titel:   kurze Überschrift, z. B. "DnD-Abende"
+       text:    optionaler kleiner Satz ("" = weglassen)
+       wer:     "beide" | "ich" | "freund"  → Abzeichen auf der Kachel
+     Einträge mit „ERSETZEN“ sind Platzhalter: das Test-Panel warnt davor.
+     Leere Liste  eintraege: []  → Abschnitt wird komplett ausgeblendet.  */
+
+  statistik: {
+    titel: "Dieses Jahr zusammen",
+    untertitel: "Was wir zwei in diesem Jahr alles geschafft haben.",
+
+    // Beschriftung der Abzeichen. {name} wird durch den Namen ersetzt.
+    labels: { beide: "Wir beide", ich: "Benny", shy: "{name}" },
+
+    eintraege: [
+      { symbol: "🔪", zahl: "150h+", titel: "DBD gespielt",   text: "Unzählige Runden mit lustigen und ragebait Momenten!", wer: "beide" },
+      { symbol: "🔥", zahl: "100h+", titel: "Elden Ring gespielt", text: "Alle Bosse bis auf Bayle sind besiegt!", wer: "beide" },
+      { symbol: "❤️", zahl: "50+", titel: "Wochenenden Angie besucht", text: "Deine Dame darf nicht vernachlässigt werden!", wer: "shy" },
+      { symbol: "🎲", zahl: "15+", titel: "Samstage DnD gespielt", text: "DnD mit den Freunden ist die beste Zeit!", wer: "beide" },
+      { symbol: "📺", zahl: "5+", titel: "Serien Benny empfohlen", text: "Die Gesprächthemen dürfen nicht sinken!", wer: "shy" },
+      { symbol: "😈", zahl: "∞ Male", titel: "Benny geragebaited", text: "Das Opfer Nr. 1 (Nur liebe Bro)", wer: "shy" }
+    ]
+  },
+
+
+  /* -------------------------------------------------------------------
      7) GLÜCKWÜNSCHE (kleine Karten)
      -------------------------------------------------------------------
      symbol: ein Emoji, titel: kurze Überschrift, text: ein Satz.     */
@@ -156,10 +186,12 @@ window.GEBURTSTAG_CONFIG = {
     titel: "Was ich dir wünsche",
     liste: [
       { symbol: "💪", titel: "Gesundheit",   text: "Damit du noch viele Jahre jeden Blödsinn mitmachen kannst." },
+      { symbol: "🍀", titel: "Glück",        text: "Pläne und Ziele dürfen auch Reibungslos verlaufen. (oder halt im Casino)" },
       { symbol: "😂", titel: "Lachen",       text: "Jeden Tag mindestens einen Grund, laut loszulachen." },
       { symbol: "🚀", titel: "Erfolg",       text: "Dass alles, was du dir vornimmst, auch klappt." },
       { symbol: "🌍", titel: "Abenteuer",    text: "Neue Orte, neue Geschichten – am besten mit mir dabei." },
       { symbol: "🧱", titel: "Bauzeit",      text: "Ruhige Abende, an denen du einfach mal abschalten kannst." },
+      { symbol: "❤️", titel: "Liebe",        text: "Von deiner Frau, deinen Freunden oder nahen Verwandten." },
       { symbol: "🍻", titel: "Gute Leute",   text: "Menschen um dich herum, die dich so feiern, wie du bist." }
     ]
   },
@@ -176,13 +208,15 @@ window.GEBURTSTAG_CONFIG = {
     titel: "Ein paar Worte an dich",
     anrede: "Lieber {name},",
     absaetze: [
-      "heute wirst du {alter} – und ich wollte dir dieses Jahr nicht einfach nur eine Nachricht schreiben, sondern dir etwas bauen. Etwas, das zeigt, wie viel du mir bedeutest.",
+      "heute wirst du {alter} – und ich wollte dir dieses Jahr nicht einfach nur eine Nachricht schreiben, sondern dir etwas bauen. Etwas, das zeigt, wie viel du mir bedeutest. Hier kannst du ein paar deiner Lieblingslieder, besonderen Stats und die besten Momente von uns im Jahre 2026 begutachten und genießen!",
+      "Weißt du noch? Zu Atzes Geburtstag 2025? Da haben wir uns das erste Mal gesehen, DnD gespielt und kamen da auch das erste Mal ins Gespräch. Bis zu Silvester und besonders zu Silvester haben wir unsere Zeit genossen, uns besser kennengelernt und haben 2026 mit einer tollen Freundschaft begonnen! Jetzt ist schon ein Jahr vorbei und wir haben diese Freundschaft zu einer Bruderschaft gefestigt!",
       "Wir haben schon so viel zusammen erlebt: Abende, die viel zu lang wurden, Pläne, die nie aufgegangen sind, und Momente, über die wir uns heute noch kaputtlachen. Du warst da, wenn es gut lief – und erst recht, wenn es mal nicht so gut lief. Das ist nicht selbstverständlich, und ich weiß das zu schätzen.",
+      "Ich habe schon viele Menschen kennengelernt, Freundschaften geschlossen und viel mit all diesen erlebt. Aber diese Freundschaft! Diese Bruderschaft! Die bedeutet mir mehr als ich es je erwartet habe. Du bist einer der wenigen Menschen in meinem Leben für die ich alles tun würde. Ich bin da, sobald du mich brauchst. Ich bin gerne das Ragebait Opfer, auch wenn es mich schnell nervt. Ich helfe wo ich kann, auch wenn ich daran verzweifel. Ich werde mit dir weinen, wenn es nötig ist. Ich werde mit dir lachen, bis meine Lunge versagt. Ich werde alles tun, nur damit wir, und besonders du, eine tolle Zeit haben!",
       "Ein bester Freund ist jemand, bei dem man nichts erklären muss. Jemand, mit dem man stundenlang reden oder einfach nur zusammen schweigen kann. Genau das bist du für mich.",
       "Ich wünsche dir ein Jahr voller guter Tage, verrückter Ideen und Menschen, die dich so feiern, wie du es verdienst. Und ich verspreche dir: Ich bin bei den meisten davon dabei.",
-      "Fühl dich gedrückt – und jetzt scroll weiter, da wartet noch was auf dich!"
+      "Fühl dich gedrückt – und jetzt scroll weiter, da wartet noch was auf dich! Ich hoffe doch dir gefällt es. ;)"
     ],
-    gruss: "Dein",
+    gruss: "Mit den besten Geburtstagswünschen",
     unterschrift: "{von}"
   },
 
