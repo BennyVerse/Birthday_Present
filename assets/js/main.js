@@ -321,6 +321,7 @@
     if (!feierGebaut) {
       baueAlter();
       baueCollage();
+      baueStatistik();
       baueWuensche();
       baueBrief();
       baueGeschenk();
@@ -463,6 +464,62 @@
     });
 
     if (!fotos.length) { $('collage').hidden = true; }
+  }
+
+  // ---- 6b) Statistik „Dieses Jahr zusammen“ --------------------------
+  function baueStatistik() {
+    var st = CFG.statistik || {};
+    var liste = (st.eintraege || []).filter(function (e) { return e && (e.titel || e.zahl); });
+    var abschnitt = $('statistik');
+    if (!liste.length) { abschnitt.hidden = true; return; }
+    abschnitt.hidden = false;
+
+    setzeText($('statistik-titel'), st.titel || '');
+    setzeText($('statistik-untertitel'), st.untertitel || '');
+    if (!st.untertitel) { $('statistik-untertitel').hidden = true; }
+
+    var raster = $('statistik-raster');
+    raster.textContent = '';
+    var labels = st.labels || {};
+
+    liste.forEach(function (e, i) {
+      var kachel = document.createElement('div');
+      kachel.className = 'statkachel einblenden';
+      kachel.style.setProperty('--verzoegerung', ((i % 3) * 0.1) + 's');
+
+      if (e.wer && labels[e.wer]) {
+        var abzeichen = document.createElement('span');
+        abzeichen.className = 'statkachel__wer statkachel__wer--' + e.wer;
+        setzeText(abzeichen, labels[e.wer]);
+        kachel.appendChild(abzeichen);
+      }
+
+      var symbol = document.createElement('span');
+      symbol.className = 'statkachel__symbol';
+      symbol.textContent = e.symbol || '⭐';
+      symbol.setAttribute('aria-hidden', 'true');
+      kachel.appendChild(symbol);
+
+      if (e.zahl !== undefined && e.zahl !== '') {
+        var zahl = document.createElement('span');
+        zahl.className = 'statkachel__zahl';
+        setzeText(zahl, String(e.zahl));
+        kachel.appendChild(zahl);
+      }
+
+      var titel = document.createElement('h3');
+      titel.className = 'statkachel__titel';
+      setzeText(titel, e.titel || '');
+      kachel.appendChild(titel);
+
+      if (e.text) {
+        var text = document.createElement('p');
+        text.className = 'statkachel__text';
+        setzeText(text, e.text);
+        kachel.appendChild(text);
+      }
+      raster.appendChild(kachel);
+    });
   }
 
   // ---- 6c) Glückwunsch-Karten -----------------------------------------
