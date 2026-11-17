@@ -692,6 +692,87 @@ body[data-zustand="feier"] .schwebe-steine { display: none; }
 
 
 /* =====================================================================
+   11b. STATISTIK – 3-Spalten-Raster
+   ===================================================================== */
+.statistik__raster {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(.6rem, 2vw, 1.2rem);
+  max-width: 900px;
+  margin: 2rem auto 0;
+}
+.statkachel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+  padding: 1.6rem .6rem 1.2rem;
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, .07);
+  border: 1px solid rgba(255, 255, 255, .12);
+  transition: transform .3s, background .3s, opacity .8s;
+}
+.statkachel.sichtbar:hover { transform: translateY(-5px); background: rgba(255, 255, 255, .12); }
+
+/* Abzeichen oben links: wer hat's geschafft? */
+.statkachel__wer {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: .15rem .6rem;
+  border-radius: 999px;
+  font-size: .68rem;
+  font-weight: 800;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--text-dunkel);
+  background: var(--gelb);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, .25);
+}
+.statkachel__wer--ich { background: var(--blau); color: #fff; }
+.statkachel__wer--freund { background: var(--gruen); color: #fff; }
+
+.statkachel__symbol {
+  font-size: clamp(1.8rem, 5vw, 2.4rem);
+  line-height: 1;
+  margin-top: .4rem;
+}
+.statkachel__zahl {
+  font-family: var(--schrift-titel);
+  font-weight: 700;
+  font-size: clamp(1.7rem, 5.5vw, 2.6rem);
+  line-height: 1.1;
+  margin-top: .5rem;
+  color: var(--gelb);
+  font-variant-numeric: tabular-nums;
+}
+.statkachel__titel {
+  font-size: clamp(.92rem, 2.6vw, 1.1rem);
+  font-weight: 600;
+  margin-top: .35rem;
+  overflow-wrap: anywhere;
+}
+.statkachel__text {
+  margin: .3rem 0 0;
+  font-size: clamp(.78rem, 2.2vw, .9rem);
+  color: var(--text-hell-2);
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+/* Kleine Handys: Schrift etwas kleiner, Raster bleibt 3-spaltig */
+@media (max-width: 600px) {
+  .statistik__raster { gap: .5rem; }
+  .statkachel { padding: 1.4rem .35rem 1rem; }
+  .statkachel__zahl { font-size: 1.25rem; max-width: 100%; overflow-wrap: anywhere; }
+  .statkachel__titel { font-size: .85rem; }
+  .statkachel__text { font-size: .72rem; }
+}
+
+/* =====================================================================
    12. GLÜCKWÜNSCHE (Karten)
    ===================================================================== */
 .wuensche__raster {
