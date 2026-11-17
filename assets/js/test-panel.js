@@ -294,6 +294,17 @@
       eintrag(liste, 'warn', 'Kein Alter gesetzt – Alter-Steine werden ausgeblendet. Achtung: {alter} im Brief bleibt dann leer.');
     }
 
+    // Statistik: Platzhalter-Texte „ERSETZEN“ noch nicht ersetzt?
+    var statEintraege = (CFG.statistik && CFG.statistik.eintraege) || [];
+    var statPlatzhalter = statEintraege.filter(function (e) {
+      return /ERSETZEN/.test(String(e.zahl || '') + String(e.text || '') + String(e.titel || ''));
+    }).length;
+    if (statPlatzhalter) {
+      eintrag(liste, 'warn', 'Statistik: ' + statPlatzhalter + ' Kachel(n) enthalten noch „ERSETZEN“ – Texte ersetzen oder Einträge löschen.');
+    } else if (statEintraege.length) {
+      eintrag(liste, 'ok', 'Statistik: ' + statEintraege.length + ' Kacheln eingetragen.');
+    }
+
     // Fotos
     var fotos = (CFG.collage && CFG.collage.fotos) || [];
     if (!fotos.length) { eintrag(liste, 'warn', 'Keine Fotos in der Collage eingetragen.'); }
